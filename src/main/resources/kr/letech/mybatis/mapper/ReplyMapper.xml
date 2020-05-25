@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.letech.reply.dao.ReplyMapper">
+
+	<!-- reply_seq에 해당하는 reply를 반환  -->
+	<select id="getReply" parameterType="int" resultType="ReplyVo">
+		SELECT * 
+		  FROM REPLY
+		 WHERE REPLY_SEQ = #{reply_seq}
+	</select>
+
+	<!-- post_seq에 해당하는 replyList를 반환  -->
+	<select id="getReplyList" parameterType="int" resultType="ReplyVo">
+		SELECT * 
+		  FROM REPLY
+		 WHERE POST_SEQ = #{post_seq}
+		   AND REPLY_STAT = 1
+	</select>
+	
+	<!-- insertReply -->
+	<insert id="insertReply" parameterType="ReplyVo">
+		INSERT INTO REPLY(REPLY_SEQ, POST_SEQ, MEM_ID, REPLY_CONT, REPLY_REG, REPLY_MOD, REPLY_STAT, PAR_REPLY_SEQ)
+		VALUES(GET_SEQ('REPLY_SEQ'), #{post_seq}, #{mem_id}, #{reply_cont}, #{reply_reg}, #{reply_mod}, #{reply_stat}, #{par_reply_seq})
+	</insert>
+	
+	<!-- updateReply -->
+	<update id="updateReply" parameterType="ReplyVo">
+		UPDATE REPLY
+		   SET REPLY_CONT = #{reply_cont},
+			   REPLY_MOD = #{reply_mod}
+	     WHERE REPLY_SEQ = #{reply_seq}
+	</update>
+	
+	<!-- deleteReply -->
+	<update id="deleteReply" parameterType="int">
+		UPDATE REPLY
+		   SET REPLY_STAT = 0
+		 WHERE REPLY_SEQ = #{reply_seq} 
+	</update>
+	
+</mapper>

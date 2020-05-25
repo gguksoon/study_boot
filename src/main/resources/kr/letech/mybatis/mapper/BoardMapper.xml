@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.letech.board.dao.BoardMapper">
+	
+	<!-- board_seq에 해당하는 Board객체 반환  -->
+	<select id="getBoard" parameterType="int" resultType="BoardVo">
+		SELECT *
+		  FROM BOARD
+		 WHERE BOARD_SEQ = #{board_seq}
+	</select>
+	
+	<!-- 모든 board객체를 List<Board>로 반환 -->
+	<select id="getBoardList" resultType="BoardVo">
+		SELECT *
+		  FROM BOARD
+		 ORDER BY BOARD_SEQ
+	</select>
+	
+	<insert id="insertBoard" parameterType="BoardVo">
+		INSERT INTO BOARD(BOARD_SEQ, BOARD_NAME, MEM_ID, BOARD_LOC, BOARD_STAT, BOARD_WRITE)
+		VALUES(GET_SEQ('BOARD_SEQ'), #{board_name}, #{mem_id}, #{board_loc}, #{board_stat}, #{board_write})
+	</insert>
+	
+	<update id="updateBoard" parameterType="BoardVo">
+		UPDATE BOARD
+		   SET BOARD_NAME = #{board_name},
+		       MEM_ID = #{mem_id},
+		       BOARD_LOC = #{board_loc},
+		       BOARD_STAT = #{board_stat},
+		       BOARD_WRITE = #{board_write}
+		 WHERE BOARD_SEQ = #{board_seq}
+	</update>
+	
+	<update id="updateBoardStat" parameterType="int">
+		UPDATE BOARD
+		   SET BOARD_STAT = 1
+		 WHERE BOARD_SEQ = #{board_seq}
+	</update>
+</mapper>

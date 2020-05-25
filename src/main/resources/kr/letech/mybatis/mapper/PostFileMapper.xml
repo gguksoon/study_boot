@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.letech.postFile.dao.PostFileMapper">
+	
+	<!-- getPostFile -->
+	<select id="getPostFile" parameterType="int" resultType="PostFileVo">
+		SELECT *
+		  FROM POST_FILE
+		 WHERE FILE_SEQ = #{file_seq}
+	</select>
+	
+	<!-- getPostFileList -->
+	<select id="getPostFileList" parameterType="int" resultType="PostFileVo">
+		SELECT *
+		  FROM POST_FILE
+		 WHERE POST_SEQ = #{post_seq}
+	</select>
+	
+	
+	<!-- insertPostFile -->
+	<insert id="insertPostFile" parameterType="PostFileVo">
+		INSERT INTO POST_FILE
+		VALUES(GET_SEQ('POST_FILE_SEQ'), #{post_seq}, #{mem_id}, #{file_reg}, #{file_name},
+				#{file_realname}, #{file_path})
+	</insert>
+	
+	<!-- deletePostFile -->
+	<delete id="deletePostFile">
+		DELETE FROM POST_FILE
+		 WHERE FILE_SEQ = #{file_seq}
+	</delete>
+	 
+</mapper>
