@@ -1,137 +1,146 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<form id="frm" method="post"></form>
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+            </div>
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>${board.board_name}  
+                    	<small>					
+							<span class="total_page">전체 <b>${postTotalCnt }건</b> </span>
+							<span class="current_page">현재 페이지 <b>${page }</b></span>/<strong>${pageTotalCnt}</strong>
+						</small>
+					</h2>
+                    <div class="clearfix"></div>
+                  </div>
 
-<section id="container">
-	<div id="contentWrap">
-		<section id="content">
-			<section class="content_info">
-				<h1 class="title">${board.board_name}</h1>
-			</section>
-			<section id="content_detail" class="content_body">
-				<div class="board_info">
-					<div class="Search_rss">
-						<form action="http://www.duegosystem.com/sub0402/redirect" class="board-form" method="post" accept-charset="utf-8">
-							<input type="hidden" name="redirect" value="/sub0402/index" style="display:none;" />
-							<input type="hidden" name="encoding" value="1" style="display:none;" />
-							<input type="hidden" name="csrf_test_name" value="2551cf48cf4f4f40e51e62b5180f5784" style="display:none;" />
-							<input type="hidden" name="history" value="/sub0402/index" style="display:none;" />
-<!-- 							<fieldset> -->
-<!-- 								<input type="hidden" name="search_order" value=""  id="search_order" /> -->
-<!-- 								<span class="form-select"> -->
-<!-- 									<select name="search_field"  title="검색어 분류를 선택하세요."  id="search_field" > -->
-<!-- 										<option value="A.subject+A.contents" >제목+내용</option> -->
-<!-- 										<option value="A.subject" >제목</option> -->
-<!-- 										<option value="A.contents" >내용</option> -->
-<!-- 										<option value="A.name" >작성자</option> -->
-<!-- 									</select> -->
-<!-- 								</span> -->
-<!-- 								<span class="form-input"><input type="text" name="search_keyword" value=""  placeholder="검색어를 입력하세요(구현중)" title="검색어를 입력하세요" id="search_keyword" /></span> -->
-<!-- 								<span class="form-btn"><button  type="submit" class="pi-btn Btn-Gray Xs"> 검색</button></span> -->
-<!-- 							</fieldset> -->
-						</form>
-					</div>
-					<p class="page_info">
-						<span class="total_page">전체 <b>${postTotalCnt }건</b> </span>
-						<span class="current_page">현재 페이지 <b>${page }</b></span>/<strong>${pageTotalCnt}</strong>
-					</p>
-				</div>
-				<div class="tstyle_list">
-					<div class="IR">공지사항 목록</div>
-					<div class="dhead">
-						<ul>
-							<li class="W8 ">번호</li>
-							<li class="title">제목</li>
-<!-- 							<li class="W10">첨부파일</li> -->
-							<li class="W10">작성자</li>
-							<li class="W13">등록일</li>
-						</ul>
-					</div>
-					<div class="dbody" id="listView">
-						<c:forEach items="${postList }" var="post">
+                  <div class="x_content">
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">번호 </th>
+                            <th class="column-title">제목 </th>
+                            <th class="column-title">작성자 </th>
+                            <th class="column-title">작성일 </th>
+                            <th class="bulk-actions" colspan="4">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                         <c:forEach items="${postList }" var="post">
 							<c:if test="${post.post_stat eq 1 }">
-								<ul class="notice1">
-									<li class="W8">${post.post_seq }</li>
-									<li class='title' aria-title='제목'>
-										<a href='${cp }/post/${post.post_seq}'>${post.post_title }</a>
-									</li>
-										<li class='W10 m-br file' aria-title='첨부파일'></li>
-										<li class='W10 nowrap m-br' aria-title="작성자">${post.mem_id }</li>
-										<li class='W10 m-br' aria-title="등록일">
-											<fmt:formatDate value="${post.post_reg }" pattern="yyyy/MM/dd HH:mm"/>
-										</li>
-								</ul>
+	                          <tr class="even pointer" id="${post.post_seq }">
+								<td>${post.post_seq }</td>
+								<td>${post.post_title }</td>
+								<td>${post.mem_id }</td>
+								<td><fmt:formatDate value="${post.post_reg }" pattern="yyyy/MM/dd HH:mm"/></td>
+	                          </tr>
 							</c:if>
 						</c:forEach>
-					</div>
-				</div>
-				
-				<!-- pagination -->  
-				<div class="board_pager">
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                <!-- pagination -->  
+				<div class="actionBar" style="text-align: center;">
+				  <div class="btn-group mr-2" role="group" aria-label="First group">
 					<!--   "<<"   -->
-					<a href="${cp }/postList/${board.board_seq }/1" class="pageFirst" title="첫페이지">
-						<i class="fas fa-angle-double-left"></i>
-					</a>
+					<c:choose>
+						<c:when test="${page <= 1 }">
+							<button type="button" class="btn btn-secondary">
+								<i class="fa fa-angle-double-left"></i>
+							</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn btn-secondary" onclick="location.href='${cp }/postList/${board.board_seq }/1'">
+								<i class="fa fa-angle-double-left"></i>
+							</button>
+						</c:otherwise>
+					</c:choose>
+					
 
 					<!--   "<"   -->
 					<c:choose>
 						<c:when test="${page <= 1 }">
-							<a href="" class="pagePrev" title="이전페이지"><i class="fas fa-angle-left"></i></a>
+							<button type="button" class="btn btn-secondary">
+								<i class="fa fa-angle-left"></i>
+							</button>
 						</c:when>
 						<c:otherwise>
-							<a href="${cp }/postList/${board.board_seq }/${page - 1 }" class="pagePrev" title="이전페이지"><i class="fas fa-angle-left"></i></a>
+							<button type="button" class="btn btn-secondary" onclick="location.href='${cp }/postList/${board.board_seq }/${page - 1 }'">
+								<i class="fa fa-angle-left"></i>
+							</button>
 						</c:otherwise>
 					</c:choose>
 
 					<!--   "page"   -->
 					<c:forEach begin="1" end="${pageTotalCnt }" var="i">
-						<c:choose>
-							<c:when test="${i eq page }">
-								<a href="#" class="pageNow" title="${i }페이지"><strong>${i }</strong></a>
-							</c:when>
-							<c:otherwise>
-								<a href="${cp }/postList/${board.board_seq }/${i }" class="pageNone" title="${i }페이지">${i }</a>
-							</c:otherwise>
-						</c:choose>
+							<c:choose>
+								<c:when test="${i eq page }">
+									<button type="button" class="btn btn-secondary">
+										<strong style="font-size: 22px;">${i }</strong>	
+									</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="btn btn-secondary" onclick="location.href='${cp }/postList/${board.board_seq }/${i }'">
+										${i }
+									</button>
+								</c:otherwise>
+							</c:choose>
 					</c:forEach>
 
 					<!--   ">"   -->
 					<c:choose>
 						<c:when test="${page == pageTotalCnt }">
-							<a href="" class="pageNext" title="다음페이지"><i class="fas fa-angle-right"></i></a>
+							<button type="button" class="btn btn-secondary">
+								<i class="fa fa-angle-right"></i>
+							</button>
 						</c:when>
 						<c:otherwise>
-							<a href="${cp }/postList/${board.board_seq }/${page + 1 }" class="pageNext" title="다음페이지"><i class="fas fa-angle-right"></i></a>
+							<button type="button" class="btn btn-secondary" onclick="location.href='${cp }/postList/${board.board_seq }/${page + 1 }'">
+								<i class="fa fa-angle-right"></i>
+							</button>
 						</c:otherwise>
 					</c:choose>
 
 					<!--   ">>"   -->
-					<a href="${cp }/postList/${board.board_seq }/${pageTotalCnt}" class="pageLast" title="마지막페이지"><i class="fas fa-angle-double-right"></i></a>
+					<button type="button" class="btn btn-secondary" onclick="location.href='${cp }/postList/${board.board_seq }/${pageTotalCnt}'">
+						<i class="fa fa-angle-double-right"></i>
+					</button>
+					
 				</div>
-
-				<div class="BtnArea">
+					<!-- 글쓰기 버튼 -->
 					<c:if test="${S_MEM.grade == 0 or board.board_write == 1}">
-						<button type="button" id="insertPost" class="pi-btn btn_list" value="글쓰기">글쓰기</button>
+						<button type="button" id="insertPost" class="btn btn-secondary" value="글쓰기" style="float: right;">글쓰기</button>
 					</c:if>
-				</div>
-			</section>
-			<!--// #content_detail, .content_body -->
-		</section>
-		<!--// #content -->
-	</div>
-<!--// #contentWrap -->
-</section><!-- #container -->
+
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 <!-- js -->
+<form id="frm" method="post"></form>
 <script>
 	$(function() {
 		$("#insertPost").on("click", function() {
 			$("#frm").attr("action", "${cp }/postForm");
 			$("#frm").append("<input type='hidden' name='board_seq' value='${board.board_seq }'/>");
 			$("#frm").submit();
+		});
+		
+		$("body").on("click", ".even", function() {
+			location.href='${cp }/post/' + $(this).attr("id");
 		});
 	});
 </script>

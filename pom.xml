@@ -48,6 +48,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- spring security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 
 		<!-- jsper, jstl을 의존성에 추가해야 jsp파일의 구동이 가능 -->

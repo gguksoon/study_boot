@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,15 @@ public class PostSVC {
 	* Method 설명 : board_seq에 해당하는 pageList를 반환(pageMap을 이용한 pageList)
 	*/
 	public List<PostVo> getPostList(int board_seq, Map<String, Integer> pageMap) {
-		return postMapper.getPostList(board_seq, pageMap);
+		// page(offset): 데이터를 가져오는 시작점에서 얼마나 떨어진 데이터인지
+		int offset = (pageMap.get("page") - 1) * pageMap.get("pageLimit");
+		// pageLimit(limit): 몇 개의 값을 가져올 지
+		int limit = pageMap.get("pageLimit");
+		
+		RowBounds row = new RowBounds(offset, limit);
+		
+		List<PostVo> pageList = postMapper.getPostList(board_seq, row);
+		return pageList;
 	}
 
 	/**
@@ -78,7 +87,8 @@ public class PostSVC {
 	* Method 설명 : 게시글 추가
 	*/
 	public int insertPost(PostVo post) {
-		return postMapper.insertPost(post);
+		postMapper.insertPost(post);
+		return post.getPost_seq();
 	}
 
 	/**

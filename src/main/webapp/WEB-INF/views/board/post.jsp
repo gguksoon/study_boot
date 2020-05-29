@@ -6,38 +6,42 @@
 <!-- 데이터 전송을 위한 form -->
 <form id="frm" method="post"></form>
 
-<section id="container">
-	<div id="contentWrap">
-		<section id="content">
-			<section class="content_info">
-				<h1 class="title">${board_name }</h1>
-			</section>
-			<section id="content_detail" class="content_body">
-				<div class="tstyle_view">
-					<div class="title">${post.post_title } </div>
-					<ul class="head">
-						<li class="write"><strong>작성자</strong><span>${post.mem_id }</span></li>
-						<li class="date"><strong>등록일</strong>
-							<span><fmt:formatDate value="${post.post_reg }" pattern="yyyy/MM/dd HH:mm"/></span>
-						</li>
-	<!-- 					<li class="hit"><strong>조회수</strong><span>176</span></li> -->
-					</ul>
-					<div class="tb_contents" style="border-bottom: none; white-space: pre;">${post.post_cont }</div>
-					<c:forEach items="${postFileList }" var="postFile">
+<div class="right_col" role="main">
+  <!-- 게시글 -->
+  <div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>${post.post_title }<small>| 작성자 ${post.mem_id } | 등록일 <fmt:formatDate value="${post.post_reg }" pattern="yyyy/MM/dd HH:mm"/></small></h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+
+            <!-- 내용 -->
+            <div class="tb_contents" style="border-bottom: none; white-space: pre; min-height: 200px;">${post.post_cont }</div>
+            
+            <!-- 첨부파일 리스트 -->
+            <c:forEach items="${postFileList }" var="postFile">
 						<a href="${cp }/fileDownloadView/${postFile.file_seq }" class="btn btn-dark btn-sm btn-file">
 							<i class="fas fa-download"></i> Download
 						</a>
 						&nbsp;&nbsp;${postFile.file_name }<br>
 					</c:forEach>
-					<br>
-					<div class="BtnArea" style="margin-top:20px">
-						<c:if test="${S_MEM.mem_id eq post.mem_id || S_MEM.grade eq 0 }">
-							<button type="button" id ="updatePost" class="pi-btn btn_list">수정</button>
-							<button type="button" id ="deletePost" class="pi-btn btn_list">삭제</button>
-						</c:if>
-					</div>
-					<!-- 댓글 리스트 : js를 이용하여 동적 추가 -->
-					<div class="reply"></div>
+
+            <div class="clearfix"></div>
+            
+		<div class="BtnArea" style="margin-top:20px">
+			<c:if test="${S_MEM.mem_id eq post.mem_id || S_MEM.grade eq 0 }">
+				<button type="button" id ="updatePost" class="pi-btn btn_list">수정</button>
+				<button type="button" id ="deletePost" class="pi-btn btn_list">삭제</button>
+			</c:if>
+		</div>
+		
+		<div class="ln_solid"></div>
+		
+		<div class="reply"></div>
 					<div>
 						<div class="tb_contents BtnArea" style="border-bottom: 2px solid #555; padding: 1.2rem 1.2rem; text-align: center;">
 							<div class="editor_wrap" style="display: inline;" >
@@ -46,7 +50,8 @@
 							</div>
 						</div>
 					</div>
-					<ul class="list_board" style="padding: 0 1.2rem 1.2rem 1.2rem;">
+					
+										<ul class="list_board" style="padding: 0 1.2rem 1.2rem 1.2rem;">
 						<!-- 다음글 -->
 						<c:choose>
 							<c:when test="${beforeAfterPostMap.after_post != null}">
@@ -86,10 +91,13 @@
 				<div class="BtnArea" style="margin-top:20px">
 					<button type="button" class="pi-btn btn_list" onClick="location.href='${cp }/postList/${post.board_seq }/1'">목록</button>
 				</div>
-			</section><!--// #content_detail, .content_body -->
-		</section><!--// #content -->
-	</div><!--// #contentWrap -->
-</section><!-- #container -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- /page content -->
+
 
 <!-- js -->
 <script>
@@ -105,7 +113,7 @@
 			console.log(data);
 			// .reply 내용 제거
 			$(".reply").empty();
-			var html = '<h3 class="reply-count">댓 글</h3>';
+			var html = '<h2 class="reply-count">댓 글</h2>';
 			$.each(data.replyList, function(i, reply) {
 				console.log(reply)
 				html += '<div id="rep' + reply.reply_seq + '" class="reply-cont">';

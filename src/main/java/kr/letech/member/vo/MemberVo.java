@@ -1,8 +1,16 @@
 package kr.letech.member.vo;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
-public class MemberVo {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+// UserDetails: Spring Security에서 사용자의 정보를 담는 인터페이스다.
+@SuppressWarnings("serial")
+public class MemberVo implements UserDetails {
 	
 	private String mem_id;
 	private String mem_pass;
@@ -85,6 +93,45 @@ public class MemberVo {
 	public String getMemBirthFmt() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(mem_birth);
+	}
+
+	/***** UserDetails 구현 *****/
+	// 계정이 갖고 있는 권한 목록을 리턴
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+		auth.add(new SimpleGrantedAuthority(null));
+		return null;
+	}
+	// 계정의 이름을 리턴
+	@Override
+	public String getUsername() {
+		return mem_id;
+	}
+	// 계정의 비밀번호를 리턴
+	@Override
+	public String getPassword() {
+		return mem_pass;
+	}
+	// 계정이 만료되지 않았는지 리턴(true: 만료 안됨)
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	// 계정이 잠겨있지 않았는지 리턴(true: 잠금 안됨)
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	// 비밀번호가 만료되지 않았는지 리턴(true: 만료 안됨)
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	// 계정이 활성화인지 리턴(true: 활성화)
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }

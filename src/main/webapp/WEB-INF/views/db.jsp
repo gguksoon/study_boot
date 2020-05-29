@@ -22,7 +22,7 @@
 		String jdbcDriver = "jdbc:mysql://localhost:3306/study";
 		String user = "root";
 		String pass = "java";
-		String query = "select * from member";
+		String query = "SELECT * FROM MEMBER WHERE MEM_ID = ? AND MEM_PASS = ?";
 		
 		//2.데이터 베이스 커넥션 생성
 		conn = DriverManager.getConnection(jdbcDriver, user, pass);
@@ -58,14 +58,17 @@
 		</table>
 		<%
 		}catch(SQLException ex) {
+			
+		}catch(Exception ex) {
+			
 		%>
 		에러발생:<%= ex.getMessage() %>
 		<%
-			}finally {
-				if(rs!=null) try{rs.close();} catch(SQLException ex) {}
-				if(stmt!=null) try{stmt.close();} catch(SQLException ex) {}
-				if(conn!=null) try{conn.close();} catch(SQLException ex) {}
-			}
+		}finally {
+			if(rs!=null) try{rs.close();} catch(SQLException ex) {}
+			if(stmt!=null) try{stmt.close();} catch(SQLException ex) {}
+			if(conn!=null) try{conn.close();} catch(SQLException ex) {}
+		}
 		%>
 </body>
 </html>

@@ -2,80 +2,88 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<section id="container">
-	<div id="contentWrap">
-		<section id="content">
-			<section class="content_info">
-				<!-- 상단 제목 -->
-				<c:choose>
-					<c:when test="${empty post }">
-						<h1 class="title">글쓰기</h1>
-					</c:when>
-					<c:otherwise>
-						<h1 class="title">게시글 수정</h1>
-					</c:otherwise>
-				</c:choose>
-			</section>
-			<section id="content_detail" class="content_body">
-				<form id="frm" class="save-form" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-<%-- 					<input type="hidden" name="board_seq" id="board_seq" value="${board_seq }"/>  --%>
-<%-- 					<input type="hidden" name="post_seq" id="post_seq" value="${post.post_seq}"/>  --%>
-					<div class="writeForm">
-						<table class="tstyle_write">
-							<colgroup><col width="10%"><col></colgroup>
-							<tbody>
-								<tr> <!-- 작성자 -->
-									<th scope="row"><label for="name">작성자</label></th>
-									<td><input type="text" name="mem_id" value="${S_MEM.mem_id }"  id="mem_id" readonly/></td>
-								</tr>
-								<tr> <!-- 제목 -->
-									<th scope="row"><label for="subject">제목<span class="star" title="필수입력 항목"> *</span></label></th>
-									<td><input type="text" style="width: -webkit-fill-available;" name="post_title" value="${post.post_title }"  maxlength="100" class="w100" title="제목을 입력하세요" placeholder="제목을 입력하세요" id="post_title" /></td>
-								</tr>
-								<tr> <!-- 내용 -->
-									<th scope="row"><label for="content_textarea">내용</label></th>
-									<td class="tb_contents">
-										<div class='editor_wrap'>
-											<textarea name="post_cont" id="post_cont" title="내용을 입력하세요">${post.post_cont }</textarea>
-										</div>
-									</td>
-								</tr>
-								<tr> <!-- 첨부 할 파일 -->
-									<th scope="row" style="border-bottom: none;"><label for="files">첨부파일</label></th>
-									<td style="border-bottom: none;"><input type="file" multiple="multiple" id="files" name="files" placeholder="첨부파일"></td>
-								</tr>
-								<tr> <!-- 첨부된 파일 리스트 -->
-									<th></th>
-									<td>
-										<c:forEach items="${postFileList }" var="postFile">
-											<div>
-												${postFile.file_name } 
-												<button type="button" class="deletePostFile" data-seq="${postFile.file_seq }"><i class="far fa-times-circle"></i></button>
-											</div>
-										</c:forEach>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="BtnArea">
-						<!-- 등록 버튼 -->
-						<button type="submit" class="pi-btn btn_submit">등록</button>
-						<!-- 취소 버튼 -->
-						<c:choose>
-							<c:when test="${empty post }">
-								<button  type="button" class="pi-btn btn_submit" onclick="location.href='${cp}/postList/${board_seq }/1'">취소</button>
-							</c:when>
-							<c:otherwise>
-								<button  type="button" class="pi-btn btn_submit" onclick="location.href='${cp}/post/${post.post_seq }'">취소</button>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</form>
-			</section><!--// #content_detail, .content_body -->
-		</section><!--// #content -->
-	</div><!--// #contentWrap -->
-</section><!-- #container -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <!-- 상단 제목 -->
+					<c:choose>
+						<c:when test="${empty post }">
+							<h2>글쓰기<small>different form elements</small></h2>
+						</c:when>
+						<c:otherwise>
+							<h2>게시글 수정<small>different form elements</small></h2>
+						</c:otherwise>
+					</c:choose>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="frm" data-parsley-validate class="form-horizontal form-label-left" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                      <!-- 작성자 -->
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="mem_id">작성자</label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input type="text" id="mem_id" name="mem_id" value="${S_MEM.mem_id }" readonly class="form-control ">
+                        </div>
+                      </div>
+                      <!-- 제목 -->
+                      <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="post_title">제목<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input type="text" id="post_title" name="post_title" value="${post.post_title }" required="required" class="form-control">
+                        </div>
+                      </div>
+                      <!-- 내용 -->
+                      <div class="item form-group">
+                        <label for="post_cont" class="col-form-label col-md-3 col-sm-3 label-align">내용</label>
+                       <div class="col-md-6 col-sm-6 ">
+                          <textarea class="form-control" rows="3" name="post_cont" id="post_cont">${post.post_cont }</textarea>
+                        </div>
+                      </div>
+                      <!-- 첨부할 파일 -->
+                      <div class="item form-group">
+                        <label for="files" class="col-form-label col-md-3 col-sm-3 label-align">첨부파일</label>
+                        <div class="col-md-6 col-sm-6 ">
+                          <input id="files" name="files" class="form-control" type="file" multiple="multiple">
+                        </div>
+                      </div>
+                      <c:forEach items="${postFileList }" var="postFile">
+                      <div>
+                        ${postFile.file_name } 
+                        <button type="button" class="deletePostFile" data-seq="${postFile.file_seq }"><i class="far fa-times-circle"></i></button>
+                      </div>
+                      </c:forEach>
+
+                      <div class="ln_solid"></div>
+                      <div class="item form-group" >
+                        <div class="col-md-6 col-sm-6 offset-md-6">
+                          <!-- 등록 버튼 -->
+                          <button type="submit" class="btn btn-secondary">등록</button>
+                          <!-- 취소 버튼 -->
+                          <c:choose>
+                            <c:when test="${empty post }">
+                              <button  type="button" class="btn btn-secondary" onclick="location.href='${cp}/postList/${board_seq }/1'">취소</button>
+                            </c:when>
+                          <c:otherwise>
+                              <button  type="button" class="btn btn-secondary" onclick="location.href='${cp}/post/${post.post_seq }'">취소</button>
+                          </c:otherwise>
+                        </c:choose>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 <script>
 	$(function() {

@@ -4,7 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +35,7 @@ public class MemberCTL {
 	*/
 	@GetMapping("login") 
 	public String loginView() {
-		System.out.println("dd");
+
 		return "login/login";
 	}
 	
@@ -48,9 +51,12 @@ public class MemberCTL {
 	* @return
 	* Method 설명 : 로그인 요청 처리 
 	*/
+	private static final Logger logger = LoggerFactory.getLogger(MemberCTL.class);
 	@PostMapping("login")
 	public String loginProcess(String mem_id, String mem_pass, String rememberMe,
 								HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		logger.info("auth: {}", SecurityContextHolder.getContext().getAuthentication());
+//		logger.debug("detail: {}", SecurityContextHolder.getContext().getAuthentication().getDetails());
 		
 		MemberVo member = memberSVC.getMember(mem_id);
 		

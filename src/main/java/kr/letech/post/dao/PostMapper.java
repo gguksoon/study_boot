@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
 import kr.letech.post.vo.PostVo;
@@ -31,7 +32,7 @@ public interface PostMapper {
 	* @return
 	* Method 설명 : board_seq에 해당하는 pageList를 반환(pageMap을 이용한 pageList)
 	*/
-	List<PostVo> getPostList(int board_seq, Map<String, Integer> pageMap);
+	List<PostVo> getPostList(int board_seq, RowBounds row);
 	
 	/**
 	* Method : getPostTotalCnt

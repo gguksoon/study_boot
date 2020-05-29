@@ -38,20 +38,6 @@ public class BoardCTL {
 	}
 	
 	/**
-	* Method : manageBoardView
-	* 작성자 : JO MIN SOO
-	* 변경이력 :
-	* @param model
-	* @return
-	* Method 설명 : 게시판 관리 페이지 호출
-	*/
-	@RequestMapping("manageBoard")
-	public String manageBoardView() {
-		
-		return "tiles/manage/manageBoard";
-	}
-	
-	/**
 	* Method : insertBoard
 	* 작성자 : JO MIN SOO
 	* 변경이력 :
